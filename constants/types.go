@@ -47,7 +47,7 @@ const (
 	FREQUENCY_SEMI_ANNUALLY FrequencyType = "Semi-Annually"
 )
 
-type ModelUser struct {
+type ModelUsers struct {
 	UserID    int        `json:"user_id" gorm:"primary_key;auto_increment"`
 	Email     string     `json:"email" gorm:"type:varchar"`
 	Password  string     `json:"password" gorm:"type:varchar"`
@@ -56,17 +56,17 @@ type ModelUser struct {
 	Status    StatusType `gorm:"type:varchar" json:"status"`
 }
 type ModelCards struct {
-	CardID   int         `gorm:"primary_key;auto_increment" json:"card_id"`
-	CardName string      `gorm:"type:varchar" json:"card_name"`
-	UserID   []ModelUser `json:"user_id" gorm:"foreignkey:UserID"`
-	Limit    float64     `json:"limit"`
-	LastDay  time.Time   `gorm:"type:timestamp" json:"last_day"`
-	Expiry   time.Time   `gorm:"type:timestamp" json:"expiry"`
-	Status   StatusType  `gorm:"type:varchar" json:"status"`
+	CardID   int          `gorm:"primary_key;auto_increment" json:"card_id"`
+	CardName string       `gorm:"type:varchar" json:"card_name"`
+	UserID   []ModelUsers `json:"user_id" gorm:"foreignkey:UserID"`
+	Limit    float64      `json:"limit"`
+	LastDay  time.Time    `gorm:"type:timestamp" json:"last_day"`
+	Expiry   time.Time    `gorm:"type:timestamp" json:"expiry"`
+	Status   StatusType   `gorm:"type:varchar" json:"status"`
 }
 type ModelUserCategory struct {
 	UCID         int             `gorm:"primary_key;auto_increment" json:"uc_id"`
-	UserID       []ModelUser     `gorm:"foreignkey:UserID" json:"user"`
+	UserID       []ModelUsers    `gorm:"foreignkey:UserID" json:"user"`
 	CategoryType TransactionType `json:"category_type" gorm:"type:varchar"`
 	CategoryName string          `gorm:"type:varchar" json:"category_name"`
 	CreatedOn    time.Time       `gorm:"type:timestamp; default:current_timestamp" json:"created_on"`
@@ -102,7 +102,7 @@ type ModelTransaction struct {
 	Name          string              `gorm:"type:varchar" json:"name"`
 	Type          TransactionType     `gorm:"type:varchar" json:"type"`
 	CategoryID    []ModelUserCategory `gorm:"foreignkey:CategoryID" json:"category_id"`
-	UserID        []ModelUser         `gorm:"foreignkey:UserID" json:"user_id"`
+	UserID        []ModelUsers        `gorm:"foreignkey:UserID" json:"user_id"`
 	Amount        float64             `json:"amount"`
 	CreditCardID  *[]ModelCards       `json:"credit_card_id" gorm:"foreignkey: CardID"`
 	BillID        *[]ModelBill        `json:"bill_id" gorm:"foreignkey: BillID"`
