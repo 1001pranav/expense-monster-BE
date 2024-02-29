@@ -6,6 +6,7 @@ type ModelUsers struct {
 	UserID       uint                `json:"user_id" gorm:"primary_key;auto_increment"`
 	Email        string              `json:"email" gorm:"type:varchar"`
 	Password     string              `json:"password" gorm:"type:varchar"`
+	AccessToken  string              `json:"access_token" gorm:"type:varchar"`
 	CreatedOn    time.Time           `json:"created_on" gorm:"type:timestamp; default:current_timestamp"`
 	UpdatedAt    time.Time           `json:"updated_at" gorm:"type:timestamp; default:current_timestamp"`
 	Status       StatusType          `gorm:"type:varchar" json:"status"`
