@@ -31,7 +31,7 @@ func SignJWT(userID uint) (string, error) {
 	return tokenString, nil
 }
 
-func VerifyToken(tokenString string) error {
+func VerifyJWToken(tokenString string) error {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return SECRET_KEY, nil
 	})

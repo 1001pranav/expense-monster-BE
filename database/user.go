@@ -35,3 +35,12 @@ func UpdateUsers(userData c.ModelUsers) error {
 	db.Save(&userData)
 	return nil
 }
+
+func GetByAccessToken(accessToken string, userID uint) bool {
+	db := h.Connection()
+	var userData c.ModelUsers
+	if err := db.First(&userData, "AccessToken=? AND UserID=?", accessToken, userID); err != nil {
+		return false
+	}
+	return true
+}

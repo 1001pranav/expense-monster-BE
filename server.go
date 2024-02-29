@@ -3,6 +3,7 @@ package main
 import (
 	"expense-monster-BE/handler"
 	dbConn "expense-monster-BE/helper"
+	"expense-monster-BE/middleware"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -35,6 +36,7 @@ func main() {
 
 	server.POST("/user/register", handler.Register)
 
+	server.Use(middleware.ValidateAccessToken())
 	// Start the HTTP server on all available network interfaces, listening on port 8080.
 	server.Run() // listen and serve on 0.0.0.0:808(for windows "localhost:8080
 	//If we want to use different port we can use
