@@ -10,7 +10,7 @@ func GetUsersInfoByUsers(emailID string) (c.ModelUsers, bool) {
 
 	var findByUserEmail c.ModelUsers
 
-	if err := db.First(&findByUserEmail); err != nil {
+	if err := db.First(&findByUserEmail, "Email=?", emailID); err != nil {
 		return findByUserEmail, false
 	}
 
@@ -28,4 +28,10 @@ func CreateUsers(userData c.LoginAPIData) error {
 	result := db.Create(&user)
 
 	return result.Error
+}
+
+func UpdateUsers(userData c.ModelUsers) error {
+	db := h.Connection()
+	db.Save(&userData)
+	return nil
 }
