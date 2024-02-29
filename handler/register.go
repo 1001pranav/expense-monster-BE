@@ -1,37 +1,13 @@
-package routes
+package handler
 
 import (
 	constant "expense-monster-BE/constants"
 	d "expense-monster-BE/database"
 	"expense-monster-BE/helper"
-	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-func Login(c *gin.Context) {
-	var loginData constant.LoginAPIData
-
-	if err := c.BindJSON(&loginData); err != nil {
-		fmt.Println("*** Error On Login ***", err.Error())
-
-		if loginData.Email == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Required 'email'"})
-			return
-		}
-
-		if loginData.Password == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Required 'password'"})
-			return
-		}
-
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Something went wrong"})
-		return
-	}
-
-	fmt.Printf("Email_id - %s \n password - %s ", loginData.Email, loginData.Password)
 
 func Register(c *gin.Context) {
 	var registerData *constant.LoginAPIData
@@ -72,6 +48,8 @@ func Register(c *gin.Context) {
 
 	// Check if user with email already registered, Throw error if registered
 	_, userError := d.GetUsersInfoByUsers(registerData.Email)
+
+	//Returns userError false if userError Exists.
 	if !userError {
 		c.JSON(
 			http.StatusNotAcceptable,
