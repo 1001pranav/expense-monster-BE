@@ -2,6 +2,7 @@ package helper
 
 import (
 	"database/sql"
+	c "expense-monster-BE/constants"
 	"log"
 
 	"gorm.io/driver/postgres"
@@ -41,4 +42,17 @@ func HandleConnection() *sql.DB {
 	}
 
 	return sqlDB
+}
+
+func AutoMigrate() {
+	sqlDb := Connection()
+	sqlDb.AutoMigrate(
+		&c.ModelUsers{},
+		&c.ModelUserCategory{},
+		&c.ModelInvestment{},
+		&c.ModelBill{},
+		&c.ModelCards{},
+		&c.ModelTransaction{},
+	)
+
 }
