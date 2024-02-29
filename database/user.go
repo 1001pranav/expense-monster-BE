@@ -1,21 +1,31 @@
-package sqlFunction
+package database
 
 import (
 	c "expense-monster-BE/constants"
 	h "expense-monster-BE/helper"
-	"log"
-
-	"gorm.io/gorm"
 )
 
-func GetUsersInfoByUsers(emailID string) ([]c.ModelUsers, *gorm.DB) {
+func GetUsersInfoByUsers(emailID string) (c.ModelUsers, bool) {
 	db := h.Connection()
 
-	var findByUserEmail []c.ModelUsers
-	if err := db.Find(&findByUserEmail); err != nil {
-		log.Fatalln("Error Pulling Users from database", err)
-		return nil, err
+	var findByUserEmail c.ModelUsers
+
+	if err := db.First(&findByUserEmail); err != nil {
+		return findByUserEmail, false
 	}
 
-	return findByUserEmail, nil
+	return findByUserEmail, true
+}
+
+func CreateUsers(userData c.LoginAPIData) error {
+	db := h.Connection()
+
+	user := c.ModelUsers{
+		Email:    userData.Email,
+		Password: userData.Password,
+		Status:   c.STATUS_ACTIVE,
+	}
+	result := db.Create(&user)
+
+	return result.Error
 }
