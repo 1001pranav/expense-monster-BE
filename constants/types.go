@@ -21,7 +21,7 @@ type TransactionType string
 const (
 	TRANSACTION_INCOME     TransactionType = "Income"
 	TRANSACTION_EXPENSE    TransactionType = "Expense"
-	TRANSACTION_INVESTMENT TransactionType = "Expense"
+	TRANSACTION_INVESTMENT TransactionType = "Investment"
 )
 
 type InvestmentType string
