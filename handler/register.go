@@ -11,37 +11,36 @@ import (
 
 func Register(c *gin.Context) {
 	var registerData *constant.LoginAPIData
+	var response = constant.Response{}
 
 	//Check JSON is valid or not.
 	if err := c.ShouldBindJSON(&registerData); err != nil {
+		response.Status = constant.INVALID_REQUEST_STATUS
+		response.Error = err.Error()
 		c.JSON(
 			http.StatusBadRequest,
-			gin.H{
-				"status": "INVALID_REQUEST",
-				"error":  err.Error(),
-			},
+			response,
 		)
 		return
 	}
 
 	// Checking if email and password are present
 	if registerData.Email == "" {
+		response.Status = constant.REQUIRED_EMAIL_STATUS
+		response.Error = constant.REQUIRED_EMAIL_MESSAGE
 		c.JSON(
 			http.StatusBadRequest,
-			gin.H{
-				"status":  "INVALID_EMAIL",
-				"message": "Required 'email'",
-			},
+			response,
 		)
 		return
 	}
+
 	if registerData.Password == "" {
+		response.Status = constant.REQUIRED_PASSWORD_STATUS
+		response.Error = constant.REQUIRED_PASSWORD_MESSAGE
 		c.JSON(
 			http.StatusBadRequest,
-			gin.H{
-				"status":  "INVALID_PASSWORD",
-				"message": "Required 'password'",
-			},
+			response,
 		)
 		return
 	}
@@ -64,12 +63,12 @@ func Register(c *gin.Context) {
 	// Hashing Password while storing in database.
 	hashedPassword, err := helper.HashPassword(registerData.Password)
 	if err != nil {
+		response.Status = constant.INTERNAL_SERVER_STATUS
+		response.Error = err.Error()
 		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"status":  "SOMETHING_WENT_WRONG",
-				"message": err,
-			})
+			http.StatusInternalServerError,
+			response,
+		)
 		return
 	}
 
@@ -78,12 +77,11 @@ func Register(c *gin.Context) {
 	errData := d.CreateUsers(*registerData)
 
 	if errData != nil {
+		response.Status = constant.INTERNAL_SERVER_STATUS
+		response.Error = errData.Error()
 		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"status":  "INTERNAL_SERVER_ERROR",
-				"message": errData,
-			},
+			http.StatusInternalServerError,
+			response,
 		)
 		return
 	}
