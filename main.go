@@ -4,10 +4,12 @@ import (
 	"expense-monster-BE/handler"
 	dbConn "expense-monster-BE/helper"
 
-	// "expense-monster-BE/middleware"
 	"expense-monster-BE/docs"
+	"expense-monster-BE/middleware"
+
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -29,6 +31,15 @@ func main() {
 	// Initialize a new Gin router with the default middleware stack.
 	server := gin.Default()
 
+	server.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"}, // You can specify origins you want to allow here
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * 3600, // Maximum age in seconds
+	}))
+
 	//Connect to Database
 	db := dbConn.Connection()
 
@@ -47,28 +58,33 @@ func main() {
 		log.Println("Error: on db ping", pingErr)
 	}
 
+	//Grouping all /user routes together
 	userRoute := server.Group("/user/")
 	{
-		//User Login
-		//@Tags Login V1
-		//@Summary User Login
-		//@Description User Login
-		//@Accept json
-		//@Produce json
-		//@Success 200 {object} handler.LoginResponse
-		//@Failure 400 {object} handler.ErrorResponse
-		//@Failure 401 {object} handler.ErrorResponse
-		//@Failure 500 {object} handler.ErrorResponse
-		//@Router /user/login
+		{
+			//User Login
+			//@Tags Login V1
+			//@Summary User Login
+			//@Description User Login
+			//@Accept json
+			//@Produce json
+			//@Success 200 {object} handler.LoginResponse
+			//@Failure 400 {object} handler.ErrorResponse
+			//@Failure 401 {object} handler.ErrorResponse
+			//@Failure 500 {object} handler.ErrorResponse
+			//@Router /user/login
+		}
 		userRoute.POST("login", handler.Login)
-		// Serve Swagger UI
 		userRoute.POST("register", handler.Register)
-
 	}
 
 	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
+
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-	// server.Use(middleware.ValidateAccessToken())
+
+	server.Use(middleware.ValidateAccessToken())
+
+	// Serve Swagger UI
 	// Start the HTTP server on all available network interfaces, listening on port 8080.
 	server.Run() // listen and serve on 0.0.0.0:808(for windows "localhost:8080
 	//If we want to use different port we can use

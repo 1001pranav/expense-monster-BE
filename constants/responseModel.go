@@ -11,3 +11,8 @@ type LoginResponse struct {
 	AccessToken string `json:"access_token"`
 	Email       string `json:"email"`
 }
+
+type RegisterResponse struct {
+	UserID uint   `json:"user_id"`
+	Email  string `json:"email"`
+}

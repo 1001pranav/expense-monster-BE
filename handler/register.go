@@ -46,16 +46,15 @@ func Register(c *gin.Context) {
 	}
 
 	// Check if user with email already registered, Throw error if registered
-	_, userError := d.GetUsersInfoByUsers(registerData.Email)
+	userData, userError := d.GetUsersInfoByUsers(registerData.Email)
 
 	//Returns userError false if userError Exists.
-	if !userError {
+	if userData.UserID != 0 || userError {
+		response.Status = constant.EMAIL_EXISTS_STATUS
+		response.Error = constant.EMAIL_EXISTS_MESSAGE
 		c.JSON(
 			http.StatusNotAcceptable,
-			gin.H{
-				"status":  "INVALID_EMAIL",
-				"message": "Email already exists",
-			},
+			response,
 		)
 		return
 	}
@@ -74,7 +73,7 @@ func Register(c *gin.Context) {
 
 	registerData.Password = hashedPassword
 
-	errData := d.CreateUsers(*registerData)
+	userID, errData := d.CreateUsers(*registerData)
 
 	if errData != nil {
 		response.Status = constant.INTERNAL_SERVER_STATUS
@@ -86,7 +85,12 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{
-		"data": registerData,
-	})
+	var responseData = constant.RegisterResponse{}
+
+	responseData.UserID = userID
+	responseData.Email = registerData.Email
+	response.Status = constant.SUCCESS_STATUS
+	response.Data = &responseData
+
+	c.JSON(http.StatusAccepted, response)
 }
