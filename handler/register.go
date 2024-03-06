@@ -11,7 +11,7 @@ import (
 
 func Register(c *gin.Context) {
 	var registerData *constant.LoginAPIData
-	var response = constant.Response{}
+	var response = constant.RegisterResponse{}
 
 	//Check JSON is valid or not.
 	if err := c.ShouldBindJSON(&registerData); err != nil {
@@ -85,7 +85,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	var responseData = constant.RegisterResponse{}
+	var responseData = constant.RegisterResponseData{}
 
 	responseData.UserID = userID
 	responseData.Email = registerData.Email

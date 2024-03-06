@@ -28,8 +28,8 @@ import (
 func Login(c *gin.Context) {
 
 	var loginData *constant.LoginAPIData
-	var response = constant.Response{}
-	loginResponse := constant.LoginResponse{}
+	var response = constant.LoginResponse{}
+	loginResponse := constant.LoginResponseData{}
 
 	//Checking If JSON is valid or not
 	if err := c.ShouldBindJSON(&loginData); err != nil {
