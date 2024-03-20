@@ -3,9 +3,9 @@ package main
 import (
 	"expense-monster-BE/handler"
 	dbConn "expense-monster-BE/helper"
+	"expense-monster-BE/middleware"
 
 	"expense-monster-BE/docs"
-	"expense-monster-BE/middleware"
 
 	"log"
 
@@ -76,6 +76,7 @@ func main() {
 		}
 		userRoute.POST("login", handler.Login)
 		userRoute.POST("register", handler.Register)
+		userRoute.POST("forgotPassword", handler.ForgotPassword)
 	}
 
 	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")

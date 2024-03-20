@@ -28,9 +28,15 @@ import (
 func Login(c *gin.Context) {
 
 	var loginData *constant.LoginAPIData
-	var response = constant.LoginResponse{}
-	loginResponse := constant.LoginResponseData{}
 
+	loginResponse := constant.LoginResponseData{}
+	var response = constant.LoginResponse{
+		Response: constant.Response{
+			Status: constant.SUCCESS_STATUS,
+			Error:  "",
+		},
+		Data: &loginResponse,
+	}
 	//Checking If JSON is valid or not
 	if err := c.ShouldBindJSON(&loginData); err != nil {
 		response.Status = constant.INVALID_REQUEST_STATUS
@@ -98,8 +104,7 @@ func Login(c *gin.Context) {
 
 	loginDBData.AccessToken = hashToken
 	d.UpdateUsers(loginDBData)
-	response.Status = constant.SUCCESS_STATUS
-	response.Data = &loginResponse
+
 	loginResponse.AccessToken = loginDBData.AccessToken
 	loginResponse.Email = loginDBData.Email
 	loginResponse.UserID = loginDBData.UserID
@@ -107,7 +112,7 @@ func Login(c *gin.Context) {
 	fmt.Printf("Email_id - %s \n password - %s \n accessToken - %s ", loginData.Email, loginData.Password, loginDBData.AccessToken)
 
 	c.JSON(
-		http.StatusAccepted,
+		http.StatusOK,
 		response,
 	)
 }

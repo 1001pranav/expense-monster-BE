@@ -3,16 +3,18 @@ package constants
 import "time"
 
 type ModelUsers struct {
-	UserID       uint                `json:"user_id" gorm:"primary_key;auto_increment"`
-	Email        string              `json:"email" gorm:"type:varchar"`
-	Password     string              `json:"password" gorm:"type:varchar"`
-	AccessToken  string              `json:"access_token" gorm:"type:varchar"`
-	CreatedOn    time.Time           `json:"created_on" gorm:"type:timestamp; default:current_timestamp"`
-	UpdatedAt    time.Time           `json:"updated_at" gorm:"type:timestamp; default:current_timestamp"`
-	Status       StatusType          `gorm:"type:varchar" json:"status"`
-	Cards        []ModelCards        `gorm:"foreignKey:UserID"`
-	Transaction  []ModelTransaction  `gorm:"foreignKey:UserID"` // Add foreign key
-	UserCategory []ModelUserCategory `gorm:"foreignKey:UserID"`
+	UserID         uint                `json:"user_id" gorm:"primary_key;auto_increment"`
+	Email          string              `json:"email" gorm:"type:varchar"`
+	Password       string              `json:"password" gorm:"type:varchar"`
+	AccessToken    string              `json:"access_token" gorm:"type:varchar"`
+	OTP            uint                `json:"otp" gorm:"type:int"`
+	OTPGeneratedOn time.Time           `json:"otp_on" gorm:"type:type:timestamp; default:current_timestamp"`
+	CreatedOn      time.Time           `json:"created_on" gorm:"type:timestamp; default:current_timestamp"`
+	UpdatedAt      time.Time           `json:"updated_at" gorm:"type:timestamp; default:current_timestamp"`
+	Status         StatusType          `gorm:"type:varchar" json:"status"`
+	Cards          []ModelCards        `gorm:"foreignKey:UserID"`
+	Transaction    []ModelTransaction  `gorm:"foreignKey:UserID"` // Add foreign key
+	UserCategory   []ModelUserCategory `gorm:"foreignKey:UserID"`
 }
 
 type ModelCards struct {

@@ -1,12 +1,5 @@
 package constants
 
-type LoginAPIData struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type StatusType string
-
 const (
 	STATUS_ACTIVE   StatusType = "Active"
 	STATUS_BLOCKED  StatusType = "Blocked"
@@ -15,6 +8,8 @@ const (
 	STATUS_PAUSED   StatusType = "Paused"
 	STATUS_PENDING  StatusType = "Pending"
 )
+
+type StatusType string
 
 type TransactionType string
 

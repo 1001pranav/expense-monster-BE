@@ -1,5 +1,7 @@
 package constants
 
+import "time"
+
 type Response struct {
 	Status string `json:"status"`
 	Error  string `json:"debug_errors"`
@@ -24,4 +26,15 @@ type RegisterResponseData struct {
 type RegisterResponse struct {
 	Response
 	Data *RegisterResponseData `json:"data"`
+}
+
+type ForgotPasswordResponseData struct {
+	UserID       uint      `json:"user_id"`
+	OTP          uint      `json:"otp"`
+	OTPExpiresOn time.Time `json:"otp_expires_on"`
+}
+
+type ForgotPasswordResponse struct {
+	Response
+	Data *ForgotPasswordResponseData `json:"data"`
 }

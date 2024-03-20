@@ -3,9 +3,10 @@ package constants
 import "strings"
 
 const (
-	DATA_INVALID  string = "<replace> is invalid, Please fix it and try again"
-	REQUIRED_DATA string = "Need more information to complete the request, Required <replace> parameter"
-	DATA_PRESENT  string = "<replace> already exists, Please check again"
+	DATA_INVALID_RAW     string = "<replace> is invalid, Please fix it and try again"
+	REQUIRED_DATA_RAW    string = "Need more information to complete the request, Required <replace> parameter"
+	DATA_PRESENT_RAW     string = "<replace> already exists, Please check again"
+	DATA_NOT_PRESENT_RAW string = "Sorry 😭, But <replace> does not exist"
 )
 
 const (
@@ -15,17 +16,22 @@ const (
 	INVALID_EMAIL_PASSWORD_STATUS string = "INVALID_EMAIL_OR_PASSWORD"
 	INTERNAL_SERVER_STATUS        string = "INTERNAL_SERVER_ERROR"
 	EMAIL_EXISTS_STATUS           string = "EMAIL_EXISTS"
+	USER_NOT_EXISTS_STATUS        string = "USER_NOT_EXISTS"
 	SUCCESS_STATUS                string = "SUCCESS"
 )
 
 var (
-	BAD_REQUEST_MESSAGE            string = REPLACE_STRINGS(DATA_INVALID, "Request")
-	REQUIRED_EMAIL_MESSAGE         string = REPLACE_STRINGS(REQUIRED_DATA, "EMAIL")
-	REQUIRED_PASSWORD_MESSAGE      string = REPLACE_STRINGS(REQUIRED_DATA, "PASSWORD")
-	INVALID_EMAIL_PASSWORD_MESSAGE string = REPLACE_STRINGS(DATA_INVALID, "Email or Password")
-	EMAIL_EXISTS_MESSAGE           string = REPLACE_STRINGS(DATA_PRESENT, "Email Id entered")
+	BAD_REQUEST_MESSAGE            string = REPLACE_STRINGS(DATA_INVALID_RAW, "Request", "")
+	REQUIRED_EMAIL_MESSAGE         string = REPLACE_STRINGS(REQUIRED_DATA_RAW, "EMAIL", "")
+	REQUIRED_PASSWORD_MESSAGE      string = REPLACE_STRINGS(REQUIRED_DATA_RAW, "PASSWORD", "")
+	INVALID_EMAIL_PASSWORD_MESSAGE string = REPLACE_STRINGS(DATA_INVALID_RAW, "Email or Password", "")
+	EMAIL_EXISTS_MESSAGE           string = REPLACE_STRINGS(DATA_PRESENT_RAW, "Email Id entered", "")
+	USER_NOT_EXISTS_MESSAGE        string = REPLACE_STRINGS(DATA_NOT_PRESENT_RAW, "Email Id entered", "")
 )
 
-func REPLACE_STRINGS(s string, replace string) string {
-	return strings.ReplaceAll(s, "<replace>", replace)
+func REPLACE_STRINGS(baseString string, replacedString string, replaceTag string) string {
+	if replaceTag == "" {
+		replaceTag = "<replace>"
+	}
+	return strings.ReplaceAll(baseString, replaceTag, replacedString)
 }
