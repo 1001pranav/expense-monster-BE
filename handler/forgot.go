@@ -16,7 +16,7 @@ import (
 )
 
 func ForgotPassword(c *gin.Context) {
-	var requestData *constants.ForgotPasswordRequest
+	var requestData *constants.APIRequestForgotPassword
 	var response = constants.ForgotPasswordResponse{
 		Response: constants.Response{
 			Status: "",

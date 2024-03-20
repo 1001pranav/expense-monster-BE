@@ -1,10 +1,18 @@
 package constants
 
-type LoginAPIData struct {
+type APIRequestLogin struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-type ForgotPasswordRequest struct {
+type APIRequestForgotPassword struct {
 	Email string `json:"email"`
+}
+
+type APIRequestResetPassword struct {
+	OTP          *uint            `json:"otp"`
+	Password     string           `json:"password"`
+	OldPassword  *string          `json:"old_password"`
+	PasswordType RestPasswordType `json:"password_type"`
+	Email        string           `json:"email"`
 }

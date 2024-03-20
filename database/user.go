@@ -17,7 +17,7 @@ func GetUsersInfoByUsers(emailID string) (c.ModelUsers, bool) {
 	return findByUserEmail, true
 }
 
-func CreateUsers(userData c.LoginAPIData) (uint, error) {
+func CreateUsers(userData c.APIRequestLogin) (uint, error) {
 	db := h.Connection()
 
 	user := c.ModelUsers{

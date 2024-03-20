@@ -38,3 +38,10 @@ type ForgotPasswordResponse struct {
 	Response
 	Data *ForgotPasswordResponseData `json:"data"`
 }
+
+type Data struct{}
+
+type ResetPassword struct {
+	Response
+	Data Data `json:"data"`
+}

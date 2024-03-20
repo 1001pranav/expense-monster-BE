@@ -27,7 +27,7 @@ import (
 // @Router       /user/login [post]
 func Login(c *gin.Context) {
 
-	var loginData *constant.LoginAPIData
+	var loginData *constant.APIRequestLogin
 
 	loginResponse := constant.LoginResponseData{}
 	var response = constant.LoginResponse{

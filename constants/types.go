@@ -40,3 +40,10 @@ const (
 	FREQUENCY_QUARTERLY     FrequencyType = "Quarterly"
 	FREQUENCY_SEMI_ANNUALLY FrequencyType = "Semi-Annually"
 )
+
+type RestPasswordType int
+
+const (
+	FORGOT_RESET_PASSWORD RestPasswordType = 1
+	CHANGE_RESET_PASSWORD RestPasswordType = 2
+)

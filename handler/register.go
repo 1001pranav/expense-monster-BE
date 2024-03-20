@@ -10,7 +10,7 @@ import (
 )
 
 func Register(c *gin.Context) {
-	var registerData *constant.LoginAPIData
+	var registerData *constant.APIRequestLogin
 	var responseData = constant.RegisterResponseData{}
 
 	var response = constant.RegisterResponse{
@@ -40,6 +40,13 @@ func Register(c *gin.Context) {
 			http.StatusBadRequest,
 			response,
 		)
+		return
+	}
+
+	if !helper.ValidateEmail(registerData.Email) {
+		response.Error = constant.STATUS_INVALID_EMAIL
+		response.Error = ""
+		c.AbortWithStatusJSON(http.StatusBadRequest, response)
 		return
 	}
 

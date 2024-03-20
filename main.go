@@ -77,6 +77,7 @@ func main() {
 		userRoute.POST("login", handler.Login)
 		userRoute.POST("register", handler.Register)
 		userRoute.POST("forgotPassword", handler.ForgotPassword)
+		userRoute.POST("resetPassword", handler.ResetPassword)
 	}
 
 	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
