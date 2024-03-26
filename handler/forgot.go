@@ -76,7 +76,6 @@ func ForgotPassword(c *gin.Context) {
 	// const MinInStrings = strconv.Itoa(constants.MAX_TIME_FORGOT_MIN)
 	// mailMessage = constants.REPLACE_STRINGS()
 	helper.SendMailSMTP(userData.Email, []byte(mailMessage))
-	response.Data.UserID = userData.UserID
 	response.Data.OTP = userData.OTP
 	response.Data.OTPExpiresOn = userData.OTPGeneratedOn
 

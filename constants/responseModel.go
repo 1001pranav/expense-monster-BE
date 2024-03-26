@@ -29,7 +29,6 @@ type RegisterResponse struct {
 }
 
 type ForgotPasswordResponseData struct {
-	UserID       uint      `json:"user_id"`
 	OTP          uint      `json:"otp"`
 	OTPExpiresOn time.Time `json:"otp_expires_on"`
 }

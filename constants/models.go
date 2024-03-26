@@ -8,7 +8,7 @@ type ModelUsers struct {
 	Password       string              `json:"password" gorm:"type:varchar"`
 	AccessToken    string              `json:"access_token" gorm:"type:varchar"`
 	OTP            uint                `json:"otp" gorm:"type:int"`
-	OTPGeneratedOn time.Time           `json:"otp_on" gorm:"type:type:timestamp; default:current_timestamp"`
+	OTPGeneratedOn time.Time           `json:"otp_on" gorm:"type:timestamp;null"`
 	CreatedOn      time.Time           `json:"created_on" gorm:"type:timestamp; default:current_timestamp"`
 	UpdatedAt      time.Time           `json:"updated_at" gorm:"type:timestamp; default:current_timestamp"`
 	Status         StatusType          `gorm:"type:varchar" json:"status"`

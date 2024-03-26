@@ -3,6 +3,7 @@ package database
 import (
 	c "expense-monster-BE/constants"
 	h "expense-monster-BE/helper"
+	"time"
 )
 
 func GetUsersInfoByUsers(emailID string) (c.ModelUsers, bool) {
@@ -21,9 +22,10 @@ func CreateUsers(userData c.APIRequestLogin) (uint, error) {
 	db := h.Connection()
 
 	user := c.ModelUsers{
-		Email:    userData.Email,
-		Password: userData.Password,
-		Status:   c.STATUS_ACTIVE,
+		Email:          userData.Email,
+		OTPGeneratedOn: time.Now(),
+		Password:       userData.Password,
+		Status:         c.STATUS_ACTIVE,
 	}
 	result := db.Create(&user)
 

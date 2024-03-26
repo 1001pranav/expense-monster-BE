@@ -27,6 +27,8 @@ const (
 	STATUS_OTP_EXPIRED           string = "OTP_EXPIRED"
 	STATUS_PASSWORD_NOT_MATCH    string = "PASSWORD_NOT_MATCHING"
 
+	STATUS_MISSING_AUTH    string = "MISSING_AUTH_TOKEN"
+	STATUS_FAILED_AUTH     string = "FAILED_AUTH_TOKEN"
 	INTERNAL_SERVER_STATUS string = "INTERNAL_SERVER_ERROR"
 	SUCCESS_STATUS         string = "SUCCESS"
 )
@@ -38,6 +40,8 @@ var (
 	INVALID_EMAIL_PASSWORD_MESSAGE string = REPLACE_STRINGS(DATA_INVALID_RAW, "Email or Password", "")
 	EMAIL_EXISTS_MESSAGE           string = REPLACE_STRINGS(DATA_PRESENT_RAW, "Email Id entered", "")
 	USER_NOT_EXISTS_MESSAGE        string = REPLACE_STRINGS(DATA_NOT_PRESENT_RAW, "Email Id entered", "")
+	MESSAGE_MISSING_AUTH           string = "This API is authenticated, and access token is missing."
+	MESSAGE_FAILED_AUTH            string = "Failed to authenticate, Please try to login and access"
 )
 
 func REPLACE_STRINGS(baseString string, replacedString string, replaceTag string) string {
