@@ -94,7 +94,9 @@ func ResetPassword(c *gin.Context) {
 			return
 		}
 
-		if userData.OTPGeneratedOn.After(time.Now()) {
+		currentTime := time.Now()
+
+		if currentTime.After(userData.OTPGeneratedOn) {
 			response.Status = constants.STATUS_OTP_EXPIRED
 			response.Error = ""
 			c.AbortWithStatusJSON(http.StatusBadRequest, response)
