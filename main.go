@@ -3,7 +3,7 @@ package main
 import (
 	"expense-monster-BE/handler"
 	dbConn "expense-monster-BE/helper"
-	"expense-monster-BE/middleware"
+	"net/http"
 
 	"expense-monster-BE/docs"
 
@@ -58,10 +58,21 @@ func main() {
 		log.Println("Error: on db ping", pingErr)
 	}
 
+	server.Use(
+		func(c *gin.Context) {
+			defer func() {
+				if r := recover(); r != nil {
+					log.Printf("Panic: %v", r)
+					c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong!"})
+				}
+			}()
+			c.Next()
+		})
 	//Grouping all /user routes together
 	userRoute := server.Group("/user/")
 	{
 		{
+			//@swagger
 			//User Login
 			//@Tags Login V1
 			//@Summary User Login
@@ -83,8 +94,6 @@ func main() {
 	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
 
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-
-	server.Use(middleware.ValidateAccessToken())
 
 	// Serve Swagger UI
 	// Start the HTTP server on all available network interfaces, listening on port 8080.
