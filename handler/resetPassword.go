@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"time"
 
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -60,15 +62,25 @@ func ResetPassword(c *gin.Context) {
 
 	userData, isErr := database.GetUsersInfoByUsers(requestData.Email)
 
-	if !isErr {
-		response.Error = constants.USER_NOT_EXISTS_STATUS
-		response.Status = ""
+	if isErr {
+		response.Error = ""
+		response.Status = constants.USER_NOT_EXISTS_STATUS
 		c.AbortWithStatusJSON(http.StatusBadRequest, response)
 		return
 	}
 
 	if requestData.PasswordType == constants.FORGOT_RESET_PASSWORD {
-		var otp uint = *requestData.OTP
+
+		otp64, err := strconv.ParseUint(*requestData.OTP, 10, 64)
+		otp := uint(otp64)
+
+		if err != nil {
+			response.Error = err.Error()
+			response.Status = constants.STATUS_MISSING_OTP
+			c.AbortWithStatusJSON(http.StatusBadRequest, response)
+			return
+		}
+
 		if userData.OTP == 0 {
 			response.Status = constants.STATUS_OTP_EXPIRED
 			response.Error = ""

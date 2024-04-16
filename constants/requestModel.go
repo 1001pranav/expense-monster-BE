@@ -10,7 +10,7 @@ type APIRequestForgotPassword struct {
 }
 
 type APIRequestResetPassword struct {
-	OTP          *uint            `json:"otp"`
+	OTP          *string          `json:"otp"`
 	Password     string           `json:"password"`
 	OldPassword  *string          `json:"old_password"`
 	PasswordType RestPasswordType `json:"password_type"`
